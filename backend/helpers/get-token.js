@@ -1,6 +1,12 @@
 const getToken = (req) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader.split(" ")[1];
+  let token;
+
+  if (authHeader) {
+    token = authHeader.split(" ")[1];
+  } else {
+    token = null;
+  }
 
   return token;
 };
