@@ -138,7 +138,9 @@ module.exports = class UserController {
 
     const { name, email, password, confirmPassword, phone } = req.body;
 
-    let image = "";
+    if(req.file){
+      user.image = req.file.filename;
+    }
 
     if (!user) {
       res.status(422).json({ message: "Usuário não encontrado." });
