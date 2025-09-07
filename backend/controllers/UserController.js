@@ -9,7 +9,7 @@ const getUserByToken = require("../helpers/get-user-by-token");
 
 module.exports = class UserController {
   static async register(req, res) {
-    const { name, email, password, confirmPassword, image, phone } = req.body;
+    const { name, email, password, confirmPassword, phone } = req.body;
 
     //Validations
     if (!name) {
@@ -56,7 +56,6 @@ module.exports = class UserController {
       name,
       email,
       password: passwordHash,
-      image,
       phone,
     });
 

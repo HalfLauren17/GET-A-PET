@@ -8,11 +8,10 @@ module.exports = class PetController {
   static async register(req, res) {
     const { name, age, weight, color } = req.body;
 
+    //Images upload
     const images = req.files;
 
     const available = true;
-
-    //Images upload
 
     //Validations
     if (!name) {
@@ -81,6 +80,16 @@ module.exports = class PetController {
     const user = await getUserByToken(token);
 
     const pets = await Pet.find({ "user._id": user._id.toString() }).sort("-createdAt");
+
+    res.status(200).json({ pets });
+  }
+
+  static async getAllUserAdoptions(req, res){
+    //Get user from token
+    const token = getToken(req);
+    const adopter = await getUserByToken(token);
+
+    const pets = await Pet.find({ "adopter._id": adopter._id.toString() }).sort("-createdAt");
 
     res.status(200).json({ pets });
   }
