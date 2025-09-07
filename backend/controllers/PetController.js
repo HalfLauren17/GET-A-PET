@@ -102,15 +102,15 @@ module.exports = class PetController {
   static async getById(req, res) {
     const id = req.params.id;
 
-    if(!ObjectId.isValid(id)){
-      res.status(422).json({message: "Id inválido."});
+    if (!ObjectId.isValid(id)) {
+      res.status(422).json({ message: "Id inválido." });
       return;
     }
     //Check if pet exits
-    const pet = await Pet.findOne({_id: id});
+    const pet = await Pet.findOne({ _id: id });
 
-    if(!pet){
-      res.status(404).json({message: "Pet não encontrado."});
+    if (!pet) {
+      res.status(404).json({ message: "Pet não encontrado." });
       return;
     }
     res.status(200).json({ pet });
@@ -119,15 +119,15 @@ module.exports = class PetController {
   static async deleteById(req, res) {
     const id = req.params.id;
 
-    if(!ObjectId.isValid(id)){
-      res.status(422).json({message: "Id inválido."});
+    if (!ObjectId.isValid(id)) {
+      res.status(422).json({ message: "Id inválido." });
       return;
     }
     //Check if pet exits
-    const pet = await Pet.findOne({_id: id});
+    const pet = await Pet.findOne({ _id: id });
 
-    if(!pet){
-      res.status(404).json({message: "Pet não encontrado."});
+    if (!pet) {
+      res.status(404).json({ message: "Pet não encontrado." });
       return;
     }
 
@@ -135,13 +135,93 @@ module.exports = class PetController {
     const token = getToken(req);
     const user = await getUserByToken(token);
 
-    if(user._id.toString() !== pet.user._id.toString()){
-      res.status(403).json({ message: "Você não pode remover este pet."});
-      return;  
+    if (user._id.toString() !== pet.user._id.toString()) {
+      res.status(403).json({ message: "Você não pode remover este pet." });
+      return;
     }
 
-    await Pet.findByIdAndDelete({_id: id});
+    try {
+      await Pet.findByIdAndDelete({ _id: id });
 
-    res.status(200).json({message: "Pet removido com sucesso."});
+      res.status(200).json({ message: "Pet removido com sucesso." });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  }
+
+  static async updatePet(req, res) {
+    const id = req.params.id;
+    const { name, age, weight, color, available } = req.body;
+
+    const updatedData = {};
+
+    //Images upload
+    const images = req.files;
+
+    //Check if pet exits
+    const pet = await Pet.findOne({ _id: id });
+
+    if (!pet) {
+      res.status(404).json({ message: "Pet não encontrado." });
+      return;
+    }
+
+    //Check if logged user registered the pet
+    const token = getToken(req);
+    const user = await getUserByToken(token);
+
+    if (user._id.toString() !== pet.user._id.toString()) {
+      res.status(403).json({ message: "Você não pode editar este pet." });
+      return;
+    }
+
+    //Validations
+    if (!name) {
+      res.status(422).json({ message: "O nome é obrigatório." });
+      return;
+    }
+
+    updatedData.name = name;
+
+    if (!age) {
+      res.status(422).json({ message: "A idade é obrigatória." });
+      return;
+    }
+
+    updatedData.age = age;
+
+    if (!weight) {
+      res.status(422).json({ message: "O peso é obrigatório." });
+      return;
+    }
+
+    updatedData.weight = weight;
+
+    if (!color) {
+      res.status(422).json({ message: "A cor é obrigatória." });
+      return;
+    }
+
+    updatedData.color = color;
+
+    if (images.length === 0) {
+      res.status(422).json({ message: "A imagem é obrigatória." });
+      return;
+    }
+
+    updatedData.images = [];
+    images.map((image) => {
+      updatedData.images.push(image.filename);
+    });
+
+    try {
+      await Pet.findByIdAndUpdate(id, updatedData);
+
+      res
+        .status(200)
+        .json({ message: "Pet atualizado com sucesso.", updatedData });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
   }
 };
