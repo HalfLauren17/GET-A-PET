@@ -1,27 +1,36 @@
+import { useContext, useState } from "react";
+
 import Input from "../../form/Input";
-import {Link} from "react-router";
+import { Link } from "react-router";
 
 import styles from "../../form/Form.module.css";
 
+//Context
+import { Context } from "../../../context/UserContext";
+
 export default function Register() {
-  function handleChange(e) {}
+  const [user, setUser] = useState({});
+  const { register } = useContext(Context);
+
+  function handleChange(e) {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Send user to database
+    register(user);
+  }
 
   return (
     <section className={styles.formContainer}>
       <h1>Registrar</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Input
           text="Nome:"
           type="text"
           name="name"
           placeholder="Digite seu nome"
-          handleOnChange={handleChange}
-        />
-        <Input
-          text="Telefone:"
-          type="text"
-          name="phone"
-          placeholder="Digite seu telefone"
           handleOnChange={handleChange}
         />
         <Input
@@ -43,6 +52,13 @@ export default function Register() {
           type="password"
           name="confirmPassword"
           placeholder="Confirme sua senha"
+          handleOnChange={handleChange}
+        />
+        <Input
+          text="Telefone:"
+          type="text"
+          name="phone"
+          placeholder="Digite seu telefone"
           handleOnChange={handleChange}
         />
         <Input type="submit" value="Cadastrar" />

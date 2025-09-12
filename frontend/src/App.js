@@ -8,21 +8,26 @@ import Login from "./components/pages/auth/Login";
 //Components
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
-import Container from "./components/layouts/Container"
+import Container from "./components/layouts/Container";
+
+//Context
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Container>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<h1>404</h1>} />
-        </Routes>
-      </Container>
-      <Footer />
+      <UserProvider>
+        <Navbar />
+        <Container>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<h1>404</h1>} />
+          </Routes>
+        </Container>
+        <Footer />
+      </UserProvider>
     </BrowserRouter>
   );
 }
