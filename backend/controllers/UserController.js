@@ -77,7 +77,7 @@ module.exports = class UserController {
       return;
     }
     if (!password) {
-      res.status(422).json({ message: "A senha é obrigatório." });
+      res.status(422).json({ message: "A senha é obrigatória." });
       return;
     }
 

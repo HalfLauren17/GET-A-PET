@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     list-style: none;
+    gap: .8em;
 
     & li,
     a {
@@ -21,9 +22,13 @@
       border-radius: 5px;
     }
 
-    & li:hover > a {
+    & li:hover {
       background-color: #16479d;
       color: white;
+
+      & > a {
+        color: white;
+      }
     }
   }
 }
