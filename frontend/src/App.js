@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./components/pages/Home";
 import Register from "./components/pages/auth/Register";
 import Login from "./components/pages/auth/Login";
+import Profile from "./components/pages/user/Profile"
 
 //Components
 import Navbar from "./components/layouts/Navbar";
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/user/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<h1>404</h1>} />
           </Routes>

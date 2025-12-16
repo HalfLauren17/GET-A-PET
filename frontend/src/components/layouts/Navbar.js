@@ -14,7 +14,9 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarLogo}>
-        <img src={Logo} alt="Logo do site" />
+        <Link to="/">
+          <img src={Logo} alt="Logo do site" />
+        </Link>
         <h2>Get A Pet</h2>
       </div>
       <ul>
@@ -23,6 +25,9 @@ export default function Navbar() {
         </li>
         {authenticated ? (
           <>
+            <li>
+              <Link to="/user/profile">Perfil</Link>
+            </li>
             <li onClick={logout}>Sair</li>
           </>
         ) : (
