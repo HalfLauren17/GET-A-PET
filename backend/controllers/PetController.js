@@ -92,7 +92,7 @@ module.exports = class PetController {
     const token = getToken(req);
     const adopter = await getUserByToken(token);
 
-    const pets = await Pet.find({ "adopter._id": adopter._id.toString() }).sort(
+    const pets = await Pet.find({ "adopter._id": adopter._id }).sort(
       "-createdAt"
     );
 

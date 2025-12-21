@@ -81,3 +81,11 @@
     }
   }
 }
+
+/*MyAdoptions*/
+.contacts {
+  margin-left: 2em;
+  & p {
+    margin-bottom: 0.5em;
+  }
+}

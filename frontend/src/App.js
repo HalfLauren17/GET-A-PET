@@ -9,6 +9,7 @@ import MyPets from "./components/pages/pets/MyPets";
 import AddPet from "./components/pages/pets/AddPet";
 import EditPet from "./components/pages/pets/EditPet";
 import PetDetails from "./components/pages/pets/PetDetails";
+import MyAdoptions from "./components/pages/pets/MyAdoptions";
 
 //Components
 import Navbar from "./components/layouts/Navbar";
@@ -31,6 +32,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/user/profile" element={<Profile />} />
             <Route path="/pet/mypets" element={<MyPets />} />
+            <Route path="/pet/myadoptions" element={<MyAdoptions />} />
             <Route path="/pet/add" element={<AddPet />} />
             <Route path="/pet/edit/:id" element={<EditPet />} />
             <Route path="/pet/:id" element={<PetDetails />} />
