@@ -209,15 +209,12 @@ module.exports = class PetController {
 
     updatedData.color = color;
 
-    if (images.length === 0) {
-      res.status(422).json({ message: "A imagem é obrigatória." });
-      return;
+    if (images.length > 0) {
+      updatedData.images = [];
+      images.map((image) => {
+        updatedData.images.push(image.filename);
+      });
     }
-
-    updatedData.images = [];
-    images.map((image) => {
-      updatedData.images.push(image.filename);
-    });
 
     try {
       await Pet.findByIdAndUpdate(id, updatedData);
@@ -306,7 +303,9 @@ module.exports = class PetController {
     const user = await getUserByToken(token);
 
     if (user._id.toString() !== pet.user._id.toString()) {
-      res.status(403).json({ message: "Você não pode concluir a adoção deste pet." });
+      res
+        .status(403)
+        .json({ message: "Você não pode concluir a adoção deste pet." });
       return;
     }
 
@@ -315,11 +314,9 @@ module.exports = class PetController {
     try {
       await Pet.findByIdAndUpdate(id, pet);
 
-      res
-        .status(200)
-        .json({
-          message: "Parabéns, o ciclo de adoção foi finalizado com sucesso",
-        });
+      res.status(200).json({
+        message: "Parabéns, o ciclo de adoção foi finalizado com sucesso",
+      });
     } catch (error) {
       res.status(500).json({ message: error });
     }
